@@ -43,7 +43,6 @@ make test
 * **Iteration:** Each configuration is executed 5 times to report the average execution time.
 * **Key Metrics:**
     * **Speedup:** $S = \frac{T_{single}}{T_{parallel}}$.
-    * **Efficiency:** $E = \frac{S}{N}$ (where $N$ is the number of threads).
 
 ## 📄 Academic Paper (Talented Class Requirement)
 As part of the **Talented Class (KSTN)** curriculum, the group is synthesizing these findings into a short academic paper using **LaTeX** (Springer template). The paper analyzes:
