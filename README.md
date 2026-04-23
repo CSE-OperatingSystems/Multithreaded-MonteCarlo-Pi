@@ -1,80 +1,64 @@
 # Multi-threaded Monte Carlo $\pi$ Estimation
 
-Dự án này được thực hiện bởi **Nhóm Eternals** cho bài Lab 2 môn **Hệ điều hành (CO2018)** - Học kỳ HK252 tại **Đại học Bách Khoa TP.HCM (HCMUT)**. Mục tiêu là nghiên cứu ảnh hưởng của đa luồng và các chiến lược đồng bộ hóa lên hiệu suất tính toán số $\pi$ bằng phương pháp Monte Carlo.
+This project was developed by **Group Eternals** for **Lab 2: Operating Systems (CO2018)** - Semester **HK252** at **Ho Chi Minh City University of Technology (HCMUT)**[cite: 2, 4]. [cite_start]The objective is to investigate how different multi-threading strategies and synchronization mechanisms affect computational performance, scalability, and system overhead[cite: 10, 72].
 
-## 👥 Thành viên nhóm
-* **Huỳnh Tấn Tiến** (Lớp KSTN - Khoa KH&KT Máy tính)
-* Bùi Minh Tân
-* Lưu Bảo Trang
-* Lê Minh Anh
-* Đặng Trần Văn Bách
+## 👥 Team Members
+* Huỳnh Tấn Tiến
 * Huỳnh Hoàng Anh
+* Phạm Minh Đức
+## 📋 Project Overview
+[cite_start]The project implements and compares three distinct approaches to estimate the value of $\pi$ using the Monte Carlo method[cite: 88]:
 
-## 📋 Tổng quan đề tài
-Dự án so sánh 3 phương pháp tiếp cận để đo lường giới hạn của khả năng mở rộng (scalability) và chi phí đồng bộ hóa (synchronization overhead):
+1.  [cite_start]**Approach 1 (Single Thread):** Establishes a sequential baseline for speedup calculations[cite: 96].
+2.  [cite_start]**Approach 2 (Local Accumulation):** A parallel design using a Map-Reduce pattern where each thread maintains a local counter to avoid contention[cite: 97].
+3.  [cite_start]**Approach 3 (Shared Variable with Mutex):** Introduces a global counter protected by a mutex/semaphore to demonstrate synchronization overhead and lock contention[cite: 98].
 
-1.  **Approach 1 (Single Thread):** Thiết lập mức cơ sở (baseline) để so sánh hiệu suất.
-2.  **Approach 2 (Local Accumulation):** Sử dụng mô hình Map-Reduce. Mỗi luồng có bộ đếm riêng và chỉ gộp kết quả ở cuối. Không có tranh chấp tài nguyên (Contention-free).
-3.  **Approach 3 (Shared Variable with Mutex):** Sử dụng một biến global chung được bảo vệ bởi Mutex/Semaphore. Dùng để quan sát hiện tượng nghẽn (Lock Contention) và suy giảm hiệu suất khi số luồng tăng.
+## 🚀 Getting Started
 
-## 🚀 Hướng dẫn cài đặt & Thực thi
+### Prerequisites
+* [cite_start]**Operating System:** Linux (Ubuntu or WSL recommended)[cite: 112].
+* [cite_start]**Compiler:** `gcc` with `-O3` optimization[cite: 113].
+* **Tools:** `make`, `bc` (for mathematical calculations in scripts).
 
-### Yêu cầu hệ thống
-* Hệ điều hành: Linux (khuyên dùng Ubuntu/WSL)
-* Trình biên dịch: `gcc`
-* Công cụ hỗ trợ: `make`, `bc` (để chạy script tính toán toán học)
-
-### 1. Biên dịch
-Sử dụng `Makefile` đi kèm để biên dịch tất cả các phiên bản:
+### 1. Compilation
+Use the provided `Makefile` to compile all versions:
 ```bash
 make
 ```
-Sau khi chạy, bạn sẽ có các file thực thi: `app1` (Single thread) và `app2` (Multi-thread).
+This generates two main executables: `app1` (Sequential) and `app2` (Parallel Accumulation).
 
-### 2. Chạy thực nghiệm tự động
-Chúng mình đã chuẩn bị sẵn một script `run_experiment.sh` để tự động chạy qua các cấu hình từ 2 đến 128 luồng với $10^8$ điểm ảnh:
+### 2. Automated Testing
+[cite_start]To run the automated experiment script which tests configurations from 2 to 128 threads with $10^8$ points[cite: 115]:
 ```bash
 make test
 ```
 
-### 3. Chạy thủ công
-* **Approach 1:** `./app1 <tổng_số_điểm>`
-* **Approach 2:** `./app2 <tổng_số_điểm> <số_luồng>`
-* **Approach 3:** Biên dịch thủ công `gcc -O3 src/approach3_mutex.c -lpthread -o app3` rồi chạy `./app3`
+### 3. Manual Execution
+* **Approach 1:** `./app1 <total_points>`
+* **Approach 2:** `./app2 <total_points> <num_threads>`
+* **Approach 3:** Compile manually using `gcc -O3 src/approach3_mutex.c -lpthread -o app3` and run `./app3`.
 
-## 📊 Phương pháp đo lường (Methodology)
-* **Thông số kiểm thử:** $100,000,000$ điểm mẫu mỗi lần chạy.
-* **Số lần lặp:** Mỗi cấu hình luồng được chạy 5 lần để lấy giá trị trung bình (Average Execution Time).
-* **Chỉ số đo lường:** * **Speedup:** $S = \frac{T_{single}}{T_{parallel}}$
-    * **Parallel Efficiency:** $E = \frac{S}{N}$ (với $N$ là số luồng).
+## 📊 Methodology
+* [cite_start]**Input Size:** Fixed at $100,000,000$ points to ensure fair comparison[cite: 103].
+* [cite_start]**Iteration:** Each configuration is executed 5 times to report the average execution time[cite: 102].
+* **Key Metrics:**
+    * [cite_start]**Speedup:** $S = \frac{T_{single}}{T_{parallel}}$[cite: 63].
+    * [cite_start]**Efficiency:** $E = \frac{S}{N}$ (where $N$ is the number of threads)[cite: 125].
 
-## 📄 Yêu cầu cho lớp Tài năng (KSTN)
-Theo yêu cầu bổ sung, nhóm đang phát triển một bài báo khoa học ngắn (Academic Paper) định dạng **LaTeX** (Springer template) từ 4-6 trang để phân tích các khía cạnh sau:
-* **Non-linear Speedup:** Tại sao tốc độ không tăng tuyến tính theo số luồng.
-* **Saturation Point:** Xác định điểm bão hòa dựa trên số nhân CPU thực tế của máy TUF Gaming F15.
-* **Synchronization Cost:** Phân tích sự sụt giảm hiệu suất nghiêm trọng của Approach 3 khi đối mặt với tranh chấp khóa (Lock contention).
+## 📄 Academic Paper (Talented Class Requirement)
+[cite_start]As part of the **Talented Class (KSTN)** curriculum, the group is synthesizing these findings into a short academic paper using **LaTeX** (Springer template)[cite: 11, 29]. The paper analyzes:
+* [cite_start]**Non-linear Speedup:** Why performance does not scale perfectly with thread counts[cite: 137].
+* [cite_start]**Saturation Point:** Identifying the threshold where adding threads no longer improves performance relative to CPU cores[cite: 138].
+* [cite_start]**Synchronization Cost:** Quantifying the performance degradation in Approach 3 due to critical section serialization[cite: 140, 146].
 
-## 📂 Cấu trúc thư mục
+## 📂 Directory Structure
 ```text
 .
-├── src/                    # Mã nguồn C (.c, Makefile)
-├── scripts/                # Script thực nghiệm (.sh)
-├── report/                 # File LaTeX và bài báo học thuật
-└── README.md
+├── src/                    # C Source code (approach1.c, approach2.c, approach3_mutex.c, Makefile)
+├── scripts/                # Experimental shell scripts (run_experiment.sh)
+├── report/                 # LaTeX source files and final academic paper
+└── README.md               # Project documentation
 ```
 
-## 🛠 Công cụ phát triển
-* **IDE:** Visual Studio Code
-* **Environment:** Ubuntu on WSL / Linux Terminal
-* **Version Control:** Git/GitHub
-
 ---
-*Dự án này thuộc chương trình đào tạo của Khoa Khoa học và Kỹ thuật Máy tính - ĐH Bách Khoa TP.HCM.*
-
----
-
-### Một vài góp ý thêm cho Tiến:
-1.  **Về file `approach3_mutex.c`**: Trong code bạn gửi, bạn đang dùng `sem_t` (Semaphore). Mặc dù nó hoạt động tương tự Mutex trong trường hợp này (binary semaphore), nhưng nếu giảng viên khó tính, bạn nên đổi sang `pthread_mutex_t` để đúng với thuật ngữ "Mutex" trong yêu cầu Lab nhé.
-2.  **Định dạng xuống dòng**: Mình đã nhắc ở lượt trước, hãy đảm bảo các script `.sh` trên GitHub luôn ở định dạng **LF** để nhóm của bạn không bị lỗi khi clone về máy Linux.
-
-Bạn thấy bản README này đã ổn để nộp chưa?
+*This project is part of the undergraduate curriculum at the Faculty of Computer Science and Engineering, HCMUT.*
