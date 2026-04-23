@@ -43,8 +43,8 @@ make test
 * **Iteration:** Each configuration is executed 5 times to report the average execution time.
 * **Key Metrics:** Speedup: S = $\frac{T_{single}}{T_{parallel}}$.
 
-## 📄 Academic Paper (Talented Class Requirement)
-As part of the **Talented Class (KSTN)** curriculum, the group is synthesizing these findings into a short academic paper using **LaTeX** (Springer template). The paper analyzes:
+## 📄 Academic Paper 
+The paper analyzes:
 * **Non-linear Speedup:** Why performance does not scale perfectly with thread counts.
 * **Saturation Point:** Identifying the threshold where adding threads no longer improves performance relative to CPU cores.
 * **Synchronization Cost:** Quantifying the performance degradation in Approach 3 due to critical section serialization.
