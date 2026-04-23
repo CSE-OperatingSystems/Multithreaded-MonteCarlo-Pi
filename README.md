@@ -3,9 +3,9 @@
 This project was developed by **Group Eternals** for **Lab 2: Operating Systems (CO2018)** - Semester **HK252** at **Ho Chi Minh City University of Technology (HCMUT)**. The objective is to investigate how different multi-threading strategies and synchronization mechanisms affect computational performance, scalability, and system overhead.
 
 ## 👥 Team Members
-* Huỳnh Tấn Tiến
-* Huỳnh Hoàng Anh
-* Phạm Minh Đức
+* Huynh Tan Tien
+* Huynh Hoang Anh
+* Pham Minh Duc
 ## 📋 Project Overview
 The project implements and compares three distinct approaches to estimate the value of $\pi$ using the Monte Carlo method:
 
@@ -36,7 +36,7 @@ make test
 ### 3. Manual Execution
 * **Approach 1:** `./app1 <total_points>`
 * **Approach 2:** `./app2 <total_points> <num_threads>`
-* **Approach 3:** Compile manually using `gcc -O3 src/approach3_mutex.c -lpthread -o app3` and run `./app3`.
+* **Approach 3:** Compile manually using `gcc -O3 src/approach3.c -lpthread -o app3` and run `./app3`.
 
 ## 📊 Methodology
 * **Input Size:** Fixed at $100,000,000$ points to ensure fair comparison.
@@ -52,20 +52,21 @@ As part of the **Talented Class (KSTN)** curriculum, the group is synthesizing t
 ## 📂 Directory Structure
 ```text
 .
-├── src/                    # Implementation of Monte Carlo strategies
-│   ├── approach1.c         # Sequential baseline (Single-threaded) 
-│   ├── approach2.c         # Parallel version using local accumulation 
-│   ├── approach3_mutex.c   # Parallel version with shared variable and mutex 
-│   └── Makefile            # Build system for automating compilation 
-├── scripts/                # Automation and data collection
-│   └── run_experiment.sh   # Bash script for benchmarking across thread counts 
-├── report/                 # Academic documentation 
-│   ├── main.tex            # LaTeX source file for the academic paper 
-│   ├── references.bib      # Bibliography file for citations 
-│   └── figures/            # Performance charts and speedup graphs
-├── data/                   # Experimental results
-│   └── time_results.csv    # Raw timing data and speedup calculations
-└── README.md               # Project overview and execution guide
+├── src/                               # Implementation of Monte Carlo strategies
+│   ├── approach1.c                    # Sequential baseline (Single-threaded) 
+│   ├── approach2.c                    # Parallel version using local accumulation 
+│   ├── approach3_mutex.c              # Parallel version with shared variable and mutex 
+│   └── Makefile                       # Build system for automating compilation 
+├── scripts/                           # Automation and data collection
+│   └── run_experiment.sh              # Bash script for benchmarking across thread counts 
+├── report/                            # Academic documentation 
+│   ├── main.tex                       # LaTeX source file for the academic paper 
+│   ├── references.bib                 # Bibliography file for citations 
+│   └── figures/                       # Performance charts and speedup graphs
+├── data/                              # Experimental results
+│   └── time_results_approach_2.csv    # Raw timing data and speedup calculations appproach2
+│   └── time_results_approach_3.csv    # Raw timing data and speedup calculations appproach3
+└── README.md                          # Project overview and execution guide
 ```
 
 ---
