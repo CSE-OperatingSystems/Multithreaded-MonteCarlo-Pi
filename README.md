@@ -54,10 +54,20 @@ As part of the **Talented Class (KSTN)** curriculum, the group is synthesizing t
 ## 📂 Directory Structure
 ```text
 .
-├── src/                    # C Source code (approach1.c, approach2.c, approach3_mutex.c, Makefile)
-├── scripts/                # Experimental shell scripts (run_experiment.sh)
-├── report/                 # LaTeX source files and final academic paper
-└── README.md               # Project documentation
+├── src/                    # Implementation of Monte Carlo strategies
+│   ├── approach1.c         # Sequential baseline (Single-threaded) [cite: 96]
+│   ├── approach2.c         # Parallel version using local accumulation [cite: 97]
+│   ├── approach3_mutex.c   # Parallel version with shared variable and mutex [cite: 98]
+│   └── Makefile            # Build system for automating compilation [cite: 112]
+├── scripts/                # Automation and data collection
+│   └── run_experiment.sh   # Bash script for benchmarking across thread counts [cite: 102]
+├── report/                 # Academic documentation [cite: 11]
+│   ├── main.tex            # LaTeX source file for the academic paper [cite: 212]
+│   ├── references.bib      # Bibliography file for citations [cite: 168]
+│   └── figures/            # Performance charts and speedup graphs [cite: 128]
+├── data/                   # Experimental results
+│   └── time_results.csv    # Raw timing data and speedup calculations
+└── README.md               # Project overview and execution guide
 ```
 
 ---
