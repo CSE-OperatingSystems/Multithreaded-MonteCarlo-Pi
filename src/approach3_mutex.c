@@ -16,7 +16,6 @@ void* monte_carlo(void* arg) {
         double x = (double)rand() / RAND_MAX;
         double y = (double)rand() / RAND_MAX;
         if (x * x + y * y <= 1.0) {
-            //critical section
             sem_wait(&semaphore);
             global_count++;
             sem_post(&semaphore);
