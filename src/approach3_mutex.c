@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <semaphore.h>
 #include <time.h>
 #include <math.h>
 
@@ -10,15 +9,17 @@
 int num_threads;
 
 long long global_count = 0;
-sem_t semaphore;
+pthread_mutex_t mutex;
+pthread_mutexattr_t mutex_attr;
 void* monte_carlo(void* arg) {
     for (long long i = 0; i < NUM_ITERATIONS/num_threads; i++) {
         double x = (double)rand() / RAND_MAX;
         double y = (double)rand() / RAND_MAX;
         if (x * x + y * y <= 1.0) {
-            sem_wait(&semaphore);
+            //critical section
+            pthread_mutex_lock(&mutex);
             global_count++;
-            sem_post(&semaphore);
+            pthread_mutex_unlock(&mutex);
         }
     }
     return NULL;
@@ -35,7 +36,8 @@ int main() {
             clock_t start = clock();
             num_threads = k;
             pthread_t threads[num_threads];
-            sem_init(&semaphore, 0, 1);
+            pthread_mutexattr_init(&mutex_attr);
+            pthread_mutex_init(&mutex, &mutex_attr);
             for (int i = 0; i < num_threads; i++) {
                 pthread_create(&threads[i], NULL, monte_carlo, NULL);
             }
@@ -49,8 +51,9 @@ int main() {
             time_taken[j] = ((double)(end - start)) / CLOCKS_PER_SEC;
             printf("Time taken: %f seconds\n", time_taken[j]);
             printf("Difference from actual Pi: %f\n\n", fabs(pi - pi_estimate));
-            sem_destroy(&semaphore);
-            global_count = 0;
+            pthread_mutex_destroy(&mutex);
+            pthread_mutexattr_destroy(&mutex_attr);
+            global_count = 0; // Reset global count for the next iteration
         }
         fprintf(fp, "%d", num_threads);
         for(int j=0; j<5; j++){
